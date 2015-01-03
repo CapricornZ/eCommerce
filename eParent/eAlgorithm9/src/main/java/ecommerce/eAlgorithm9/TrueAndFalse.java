@@ -1,4 +1,4 @@
-package ecommerce.eAlgorithm8;
+package ecommerce.eAlgorithm9;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ecommerce.base.ITrueAndFalse;
-import ecommerce.patterns.trueandfalse.alg8.Next;
+import ecommerce.patterns.trueandfalse.alg9.Next;
 
 public class TrueAndFalse implements ITrueAndFalse {
 	
@@ -54,14 +54,17 @@ public class TrueAndFalse implements ITrueAndFalse {
 			int current = metaData[indexSourceStep3];
 			if(max < current)//记录最大值
 				max = current;
-				
+
+			int delta = 0;
 			if (result.get(indexSource)) {
 				sum += metaData[indexSourceStep3];
+				delta = metaData[indexSourceStep3];
 				logger.info("+{}", metaData[indexSourceStep3]);
 				if (indexSourceStep3 != 0)
 					indexSourceStep3 -= 1;
 			} else {
 				sum -= metaData[indexSourceStep3];
+				delta = -metaData[indexSourceStep3];
 				logger.info("-{}", metaData[indexSourceStep3]);
 				indexSourceStep3 += 1;
 			}
@@ -69,7 +72,7 @@ public class TrueAndFalse implements ITrueAndFalse {
 			if(Next.go2First(result, indexSource+1, current))
 				indexSourceStep3 = 0;
 			
-			if(sum >= 10)
+			if(sum >= 5 || delta == -13)
 				stop = true;
 		}
 		logger.info(" = {} [ MAX: {} ]\r\n", sum, max);
