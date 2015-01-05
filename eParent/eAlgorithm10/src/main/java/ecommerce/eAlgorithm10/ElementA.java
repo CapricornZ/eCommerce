@@ -6,16 +6,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ecommerce.eAlgorithm10.pattern.element.A.IExpect;
 
-
-public class Element {
+public class ElementA {
 	
-	private static Logger logger = LoggerFactory.getLogger(Element.class);
+	private static Logger logger = LoggerFactory.getLogger(ElementA.class);
 	
-	private char[] data;
-	private IExpect expect12, expect5;
-	public Element(char[] data, IExpect e12, IExpect e5){
+	protected char[] data;
+	protected IExpect expect12, expect5;
+	public ElementA(char[] data, IExpect e12, IExpect e5){
 		this.data = data;
 		this.expect12 = e12;
 		this.expect5 = e5;
@@ -25,10 +23,13 @@ public class Element {
 		logger.debug("{}\r\n", new String(data));
 	}
 	
-	public List<Boolean> execute(Element element){
+	public List<Boolean> execute(ElementA element){
 
 		List<Boolean> rtn = new ArrayList<Boolean>();
 		StringBuilder sb = new StringBuilder();
+		if(this.data.length < 3)
+			return rtn;
+		
 		sb.append(this.data[0]==element.data[0]?'+':'-');
 		sb.append(this.data[1]==element.data[1]?'+':'-');
 		
@@ -37,13 +38,20 @@ public class Element {
 		for(char expect : expects12){
 			rtn.add(expect==(this.data[i]==element.data[i]?'+':'-'));
 			i++;
+			if(i>=this.data.length)
+				break;
 		}
+		
+		if(this.data.length<6)
+			return rtn;
 		
 		i=5;
 		char[] expects5 = this.expect5.expects(this.data[4]==element.data[4]?"+":"-");
 		for(char expect : expects5){
 			rtn.add(expect==(this.data[i]==element.data[i]?'+':'-'));
 			i++;
+			if(i>=this.data.length)
+				break;
 		}
 	
 		return rtn;

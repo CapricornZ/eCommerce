@@ -14,8 +14,8 @@ public class ResultRow implements IResultRow {
 	
 	private static Logger logger = LoggerFactory.getLogger(ResultRow.class);
 
-	private List<Element> data;
-	public ResultRow(List<Element> data){
+	private List<ElementA> data;
+	public ResultRow(List<ElementA> data){
 		this.data = data;
 	}
 	
@@ -36,8 +36,8 @@ public class ResultRow implements IResultRow {
 		List<Boolean> result = new ArrayList<Boolean>();
 		for(int i=1; i<this.data.size(); i++){
 			
-			Element last = this.data.get(i-1);
-			Element current = this.data.get(i);
+			ElementA last = this.data.get(i-1);
+			ElementA current = this.data.get(i);
 			
 			List<Boolean> rtn = current.execute(last);
 			result.addAll(rtn);

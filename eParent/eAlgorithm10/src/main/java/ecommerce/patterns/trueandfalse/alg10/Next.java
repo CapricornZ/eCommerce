@@ -2,9 +2,9 @@ package ecommerce.patterns.trueandfalse.alg10;
 
 import java.util.List;
 
-import ecommerce.patterns.trueandfalse.INext;
-import ecommerce.patterns.trueandfalse.Next1;
-import ecommerce.patterns.trueandfalse.Next4;
+import ecommerce.patterns.trueandfalse.gonext.INext;
+import ecommerce.patterns.trueandfalse.gonext.Next1;
+import ecommerce.patterns.trueandfalse.gonext.Next4;
 
 public class Next {
 	

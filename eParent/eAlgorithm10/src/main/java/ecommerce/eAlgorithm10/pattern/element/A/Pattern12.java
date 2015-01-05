@@ -1,5 +1,7 @@
 package ecommerce.eAlgorithm10.pattern.element.A;
 
+import ecommerce.eAlgorithm10.IExpect;
+
 /***
  * 匹配element的第1,2列
  * @author martin

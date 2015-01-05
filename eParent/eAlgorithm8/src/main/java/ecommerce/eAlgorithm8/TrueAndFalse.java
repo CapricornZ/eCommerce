@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import ecommerce.base.ITrueAndFalse;
 import ecommerce.patterns.trueandfalse.alg8.Next;
+import ecommerce.patterns.trueandfalse.gonext.INext;
+import ecommerce.patterns.trueandfalse.stop.IStop;
 
 public class TrueAndFalse implements ITrueAndFalse {
 	
@@ -18,6 +20,8 @@ public class TrueAndFalse implements ITrueAndFalse {
 	private List<Boolean> result;
 	public TrueAndFalse(List<Boolean> result){
 		this.result = result;
+	}
+	public TrueAndFalse(){
 	}
 	
 	public void print(){
@@ -34,9 +38,6 @@ public class TrueAndFalse implements ITrueAndFalse {
 				sBuild.append("x");
 			}
 		}
-		this.strValue = sBuild.toString();
-		
-		//logger.info("{}", this.strValue);
 		
 		logger.info(" [ x:{} ({}%), o:{} ({}%) ]\r\n", 
 				countFalse, ((float)countFalse*100/(float)(countFalse+countTrue)), 
@@ -66,24 +67,33 @@ public class TrueAndFalse implements ITrueAndFalse {
 				indexSourceStep3 += 1;
 			}
 			
-			if(Next.go2First(result, indexSource+1, current))
+			if(TrueAndFalse.next.go2First(result, indexSource+1, current))
 				indexSourceStep3 = 0;
 			
-			if(sum >= 10)
-				stop = true;
+			stop = TrueAndFalse.stop.match(this);
 		}
 		logger.info(" = {} [ MAX: {} ]\r\n", sum, max);
 
 	}
+
+	static private IStop stop;
+	public void setStop(IStop stop){
+		TrueAndFalse.stop = stop;
+	}
 	
-	private int sum, max;
+	static private INext next;
+	public void setNext(INext next){
+		TrueAndFalse.next = next;
+	}
+	
+	private int sum, max, current;
 	private int countTrue, countFalse;
-	private String strValue;
 	
 	public int getSum(){return sum;}
 	public int getMax(){return max;}
+	public int getCurrent() {return current;}
 	public int getCountTrue(){return countTrue;}
 	public int getCountFalse(){return countFalse;}
 	public List<Boolean> getResult(){return this.result;}
-
+	
 }

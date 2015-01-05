@@ -34,9 +34,6 @@ public class TrueAndFalse implements ITrueAndFalse {
 				sBuild.append("x");
 			}
 		}
-		this.strValue = sBuild.toString();
-		
-		//logger.info("{}", this.strValue);
 		
 		logger.info(" [ x:{} ({}%), o:{} ({}%) ]\r\n", 
 				countFalse, ((float)countFalse*100/(float)(countFalse+countTrue)), 
@@ -79,12 +76,12 @@ public class TrueAndFalse implements ITrueAndFalse {
 
 	}
 	
-	private int sum, max;
+	private int sum, max, current;
 	private int countTrue, countFalse;
-	private String strValue;
 	
 	public int getSum(){return sum;}
 	public int getMax(){return max;}
+	public int getCurrent() {return current;}
 	public int getCountTrue(){return countTrue;}
 	public int getCountFalse(){return countFalse;}
 	public List<Boolean> getResult(){return this.result;}

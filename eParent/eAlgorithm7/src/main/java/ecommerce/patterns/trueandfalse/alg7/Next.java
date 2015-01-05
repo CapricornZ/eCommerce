@@ -2,8 +2,8 @@ package ecommerce.patterns.trueandfalse.alg7;
 
 import java.util.List;
 
-import ecommerce.patterns.trueandfalse.INext;
-import ecommerce.patterns.trueandfalse.Next1;
+import ecommerce.patterns.trueandfalse.gonext.INext;
+import ecommerce.patterns.trueandfalse.gonext.Next1;
 
 public class Next {
 

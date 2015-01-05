@@ -9,6 +9,7 @@ public interface ITrueAndFalse {
 	
 	int getSum();
 	int getMax();
+	int getCurrent();
 	int getCountTrue();
 	int getCountFalse();
 	List<Boolean> getResult();

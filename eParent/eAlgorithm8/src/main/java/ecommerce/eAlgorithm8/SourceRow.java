@@ -8,21 +8,33 @@ import org.slf4j.LoggerFactory;
 
 import ecommerce.base.Decide;
 import ecommerce.base.IRow;
+import ecommerce.base.ISourceRow;
 
-public class SourceRow implements IRow{
+public class SourceRow extends ISourceRow {
 	
 private static Logger logger = LoggerFactory.getLogger(SourceRow.class);
 	
 	private String source;
+	public SourceRow(){}
 	public SourceRow(String source){
 		this.source = source;
+	}
+	
+	@Override
+	public String getSource() {
+		return this.source;
+	}
+	
+	private static int MAX;
+	public static void setMax(int max){
+		SourceRow.MAX = max;
 	}
 	
 	@Override
 	public IRow run() {
 		
 		List<Decide> result = new ArrayList<Decide>();
-		String row = source.length()>40?source.substring(0,40):source;
+		String row = source.length()>SourceRow.MAX?source.substring(0, SourceRow.MAX):source;
 		for(int i=11; i<row.length(); i++){
 			String val = source.substring(i-11, i+1);
 			logger.debug(val);
@@ -33,9 +45,4 @@ private static Logger logger = LoggerFactory.getLogger(SourceRow.class);
 		
 		return new ResultRow(result);
 	}
-	@Override
-	public void print() {
-		logger.info("{} {}\r\n", this.source, this.source.length()>40?"(>40)":"");
-	}
-
 }

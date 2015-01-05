@@ -1,7 +1,12 @@
-package ecommerce.patterns.trueandfalse;
+package ecommerce.patterns.trueandfalse.gonext;
 
 import java.util.List;
 
+/***
+ * match oxo & current>8
+ * @author martin
+ *
+ */
 public class Next2 implements INext {
 
 	@Override

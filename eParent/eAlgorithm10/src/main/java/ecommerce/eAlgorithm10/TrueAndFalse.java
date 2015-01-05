@@ -34,9 +34,6 @@ public class TrueAndFalse implements ITrueAndFalse {
 				sBuild.append("x");
 			}
 		}
-		this.strValue = sBuild.toString();
-		
-		//logger.info("{}", this.strValue);
 		
 		logger.info(" [ x:{} ({}%), o:{} ({}%) ]\r\n", 
 				countFalse, ((float)countFalse*100/(float)(countFalse+countTrue)), 
@@ -55,16 +52,15 @@ public class TrueAndFalse implements ITrueAndFalse {
 			if(max < current)//记录最大值
 				max = current;
 
-			int delta = 0;
 			if (result.get(indexSource)) {
 				sum += metaData[indexSourceStep3];
-				delta = metaData[indexSourceStep3];
+				this.current = metaData[indexSourceStep3];
 				logger.info("+{}", metaData[indexSourceStep3]);
 				if (indexSourceStep3 != 0)
 					indexSourceStep3 -= 1;
 			} else {
 				sum -= metaData[indexSourceStep3];
-				delta = -metaData[indexSourceStep3];
+				this.current = -metaData[indexSourceStep3];
 				logger.info("-{}", metaData[indexSourceStep3]);
 				indexSourceStep3 += 1;
 			}
@@ -72,19 +68,19 @@ public class TrueAndFalse implements ITrueAndFalse {
 			if(Next.go2First(result, indexSource+1, current))
 				indexSourceStep3 = 0;
 			
-			if(sum >= 8 || delta == -13)
+			if(sum >= 8 || this.current == -13)
 				stop = true;
 		}
 		logger.info(" = {} [ MAX: {} ]\r\n", sum, max);
 
 	}
 	
-	private int sum, max;
+	private int sum, max, current;
 	private int countTrue, countFalse;
-	private String strValue;
 	
 	public int getSum(){return sum;}
 	public int getMax(){return max;}
+	public int getCurrent() {return current;}
 	public int getCountTrue(){return countTrue;}
 	public int getCountFalse(){return countFalse;}
 	public List<Boolean> getResult(){return this.result;}

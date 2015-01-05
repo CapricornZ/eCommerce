@@ -2,18 +2,17 @@ package ecommerce.patterns.trueandfalse.alg8;
 
 import java.util.List;
 
-import ecommerce.patterns.trueandfalse.INext;
-import ecommerce.patterns.trueandfalse.Next1;
-import ecommerce.patterns.trueandfalse.Next4;
+import ecommerce.patterns.trueandfalse.gonext.INext;
 
-public class Next {
+public class Next implements INext {
 
 	private static INext[] nexts;
-	static{
-		nexts = new INext[]{new Next1(),new Next4()};
+	public void setNexts(INext[] vals){
+		nexts = vals;
 	}
 	
-	static public boolean go2First(List<Boolean> result, int length, int current) {
+	@Override
+	public boolean go2First(List<Boolean> result, int length, int current) {
 		
 		boolean go2First = false;
 		for(int i=0; i<nexts.length && !go2First; i++){
@@ -21,5 +20,4 @@ public class Next {
 		}
 		return go2First;
 	}
-
 }

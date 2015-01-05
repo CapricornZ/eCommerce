@@ -60,6 +60,7 @@ public class App {
 		List<List<ITrueAndFalse>> totalResult = new ArrayList<List<ITrueAndFalse>>();
 		int maxCountOfTaf = 0;
 		int number = 1;
+		int skip = 0, total = 0;
 		while ((lineTxt = bufferedReader.readLine()) != null) {
 
 			String source = lineTxt.trim();
@@ -68,15 +69,17 @@ public class App {
 				continue;
 			}
 
+			total++;
 			IRow sRow = null;
 			if (fileType.equals("0"))
 				sRow = new SourceRow(source);
 			else
 				sRow = SourceRowConvert.convert(source, SourceRow.class);
 
-			boolean toBeRemove = Filter.filter((SourceRow)sRow);
+			boolean toBeRemove = ((ecommerce.base.ISourceRow)sRow).accept(new FilterVisitor());
 			if(toBeRemove){
 				logger.info("{}. [跳过]\r\n", number++);
+				skip++;
 				sRow.print();
 				continue;
 			}
@@ -104,7 +107,7 @@ public class App {
 		bufferedReader.close();
 
 		logger.info("--------------------------------------------------\r\n");
-		logger.info("---------------------整个文件汇总-------------------\r\n");
+		logger.info("-----------整个文件汇总 [总共:{}, 跳过:{}]---------\r\n", total, skip);
 
 		for (int i = 0; i < maxCountOfTaf; i++) {// 每一段的汇总
 			int sum = 0, max = 0;

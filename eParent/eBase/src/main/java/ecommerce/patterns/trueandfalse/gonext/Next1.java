@@ -1,4 +1,4 @@
-package ecommerce.patterns.trueandfalse;
+package ecommerce.patterns.trueandfalse.gonext;
 
 import java.util.List;
 

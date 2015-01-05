@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import ecommerce.base.IRow;
 import ecommerce.base.ISourceRow;
 
-public class SourceRow implements ISourceRow {
+public class SourceRow extends ISourceRow {
 	
 	private static Logger logger = LoggerFactory.getLogger(SourceRow.class);
 
@@ -37,38 +37,5 @@ public class SourceRow implements ISourceRow {
 		String sub = source.substring(i*7, source.length());
 		elements.add(new Element(sub.toCharArray()));
 		return new ResultRow(elements);
-	}
-
-	@Override
-	public void print() {
-		
-		char[] array=this.source.toCharArray();
-		char last = array[0];
-		int i=1, maxColumn=0;
-		List<char[]> matrix = new ArrayList<char[]>();
-		StringBuilder sb = new StringBuilder();sb.append(last);
-		while(i<array.length){
-			if(array[i] != last){
-				
-				char[] column = sb.toString().toCharArray();
-				matrix.add(column);
-				maxColumn = maxColumn>column.length?maxColumn:column.length;
-				
-				last = array[i];
-				sb = new StringBuilder();sb.append(last);
-			} else
-				sb.append(last);
-			i++;
-		}
-		
-		char[] column = sb.toString().toCharArray();
-		matrix.add(column);
-		maxColumn = maxColumn>column.length?maxColumn:column.length;
-		
-		for(i=0; i<maxColumn; i++){
-			for(char[] columnLine : matrix)
-				logger.info("{}", columnLine.length>i?columnLine[i]:' ');
-			logger.info("\r\n");
-		}
-	}
+	}	
 }

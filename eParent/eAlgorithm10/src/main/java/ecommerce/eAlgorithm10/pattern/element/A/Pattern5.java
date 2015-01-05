@@ -1,5 +1,7 @@
 package ecommerce.eAlgorithm10.pattern.element.A;
 
+import ecommerce.eAlgorithm10.IExpect;
+
 /***
  * 匹配element的第5列
  * @author martin
@@ -19,9 +21,9 @@ public class Pattern5 implements IExpect {
 	 */
 	@Override
 	public char[] expects(String data){
-		if(data.equals("++"))
+		if(data.equals("+"))
 			return result0;
-		else if(data.equals("--"))
+		else if(data.equals("-"))
 			return result1;
 		else
 			return null;

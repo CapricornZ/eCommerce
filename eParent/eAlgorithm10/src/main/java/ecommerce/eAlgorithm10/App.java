@@ -15,47 +15,27 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ecommerce.base.IRow;
 import ecommerce.base.ITrueAndFalse;
-import ecommerce.base.SourceRowConvert;
 import ecommerce.base.stastic.ISequentialStastic;
 import ecommerce.base.stastic.SequentialForSection;
 
 public class App {
 	
-	static class Filter{
-		static public boolean filter(SourceRow row){
-			
-			/*String sub = row.getSource().substring(0,14);
-			char[] data = sub.toCharArray();
-			int countOfA=0,countOfB=0;
-			for(int i=0; i<data.length; i++){
-				if(data[i] == 'A')
-					countOfA++;
-				else
-					countOfB++;
-			}
-			if(countOfA<=5 || countOfB<=5)
-				return true;
-				
-			if(!sub.contains("AA") || !sub.contains("BB"))
-				return true;*/
-			
-			return false;
-		}
-	}
-	
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 
 	public static void main(String[] args) throws Exception {
 		
-		if (args.length != 2) {
-			logger.error("APP should be followed by ${file PATH}, ${file TYPE}\r\n");
+		if (args.length != 3) {
+			logger.error("APP should be followed by ${file PATH}, ${row FORMAT}, ${algorithm TYPE}\r\n");
+			logger.error("\trow FORMAT can be 0/1\r\n");
+			logger.error("\talgorithm TYPE can be A/B\r\n");
 			return;
 		}
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext( new String[] {"applicationContext.xml"});
 
 		String filePath = args[0];
-		String fileType = args[1];
+		String rowFormat = args[1];
+		String algType = args[2];
 		logger.info("----------------------------------------\r\n");
 		logger.info("start scanning {} ...\r\n", filePath);
 		logger.info("----------------------------------------\r\n");
@@ -65,6 +45,7 @@ public class App {
 		List<List<ITrueAndFalse>> totalResult = new ArrayList<List<ITrueAndFalse>>();
 		int maxCountOfTaf = 0;
 		int number = 1;
+		int skip = 0, total = 0;
 		while ((lineTxt = bufferedReader.readLine()) != null) {
 			
 			String source = lineTxt.trim();
@@ -73,21 +54,22 @@ public class App {
 				continue;
 			}
 
-			IRow sRow = null;
-			if (fileType.equals("0"))
-				sRow = new SourceRow(source);
-			else
-				sRow = SourceRowConvert.convert(source, SourceRow.class);
-			((SourceRow)sRow).setContext(context);
+			logger.info("{}.\r\n", number++);
 			
-			boolean toBeRemove = Filter.filter((SourceRow)sRow);
+			total++;
+			IRow sRow = null;
+			SourceRowBuilder sourceBuilder = (SourceRowBuilder)context.getBean("alg10.SourceRowBuilder");
+			sRow = sourceBuilder.build(source, Integer.parseInt(rowFormat), algType);
+
+			boolean toBeRemove = ((ecommerce.base.ISourceRow)sRow).accept(new FilterVisitor());
 			if(toBeRemove){
 				logger.info("{}. [跳过]\r\n", number++);
+				skip++;
 				sRow.print();
 				continue;
 			}
 			
-			logger.info("{}.\r\n", number++);
+			
 			sRow.print();
 
 			while (sRow.getClass() != ResultRow.class) {
@@ -110,7 +92,7 @@ public class App {
 		}bufferedReader.close();
 		
 		logger.info("--------------------------------------------------\r\n");
-		logger.info("---------------------整个文件汇总-------------------\r\n");
+		logger.info("-----------整个文件汇总 [总共:{}, 跳过:{}]------------\r\n", total, skip);
 
 		for (int i = 0; i < maxCountOfTaf; i++) {// 每一段的汇总
 			int sum = 0, max = 0;

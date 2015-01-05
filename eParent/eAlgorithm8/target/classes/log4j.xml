@@ -38,6 +38,12 @@
 		<appender-ref ref="CONSOLE-CLEAN" />
 	</logger>
 	
+	<logger name="ecommerce.base" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="CONSOLE-CLEAN" />
+		<appender-ref ref="FILE-CLEAN" />
+	</logger>
+	
 	<logger name="ecommerce.eAlgorithm8" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="CONSOLE-CLEAN" />

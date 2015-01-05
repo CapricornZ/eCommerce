@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ecommerce.base.IRow;
 import ecommerce.base.ITrueAndFalse;
@@ -17,10 +19,6 @@ import ecommerce.base.SourceRowConvert;
 import ecommerce.base.stastic.ISequentialStastic;
 import ecommerce.base.stastic.SequentialForSection;
 
-/**
- * Hello world!
- *
- */
 public class App {
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 
@@ -30,13 +28,13 @@ public class App {
 			return;
 		}
 
+		ApplicationContext context = new ClassPathXmlApplicationContext( new String[] {"applicationContext.xml"});
 		String filePath = args[0];
 		String fileType = args[1];
 		logger.info("----------------------------------------\r\n");
 		logger.info("start scanning {} ...\r\n", filePath);
 		logger.info("----------------------------------------\r\n");
-		InputStreamReader read = new InputStreamReader(new FileInputStream(
-				filePath), "UTF-8");
+		InputStreamReader read = new InputStreamReader(new FileInputStream(filePath), "UTF-8");
 		BufferedReader bufferedReader = new BufferedReader(read);
 		String lineTxt = null;
 		List<List<ITrueAndFalse>> totalResult = new ArrayList<List<ITrueAndFalse>>();
@@ -120,7 +118,6 @@ public class App {
 						seqStastic.getCountOfSeqX().get(seq)==null?0:seqStastic.getCountOfSeqX().get(seq),
 						seqStastic.getCountOfSeqO().get(seq)==null?0:seqStastic.getCountOfSeqO().get(seq));
 			}
-
 		}
 		logger.info("--------------------------------------------------\r\n");
 	}
